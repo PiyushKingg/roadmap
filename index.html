@@ -6,8 +6,32 @@
     <title>Space Roadmap</title>
     <meta name="description" content="Interactive space-themed roadmap" />
     <link rel="icon" href="/favicon.ico" />
+
+    <!-- Tailwind CDN (no build step required) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // minimal tailwind config for CDN usage (custom colors)
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              aurora1: '#5AC8FA',
+              aurora2: '#A66BFF',
+              cosmicbg: '#040414'
+            },
+            fontFamily: {
+              display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* ensure mobile friendly */
+      html,body,#root { height: 100%; }
+    </style>
   </head>
-  <body class="antialiased bg-[#040414] text-white">
+  <body class="antialiased bg-[color:var(--bg,#040414)] text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
