@@ -1,11 +1,56 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* src/index.css
+   CDN-friendly base styles for the Space Roadmap (no @tailwind directives)
+   Paste this whole file as-is and commit.
+*/
 
-/* simple font fallback */
-body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+/* Root variables (colors you can tweak) */
+:root{
+  --bg-color: #040414;
+  --aurora-1: #5AC8FA;
+  --aurora-2: #A66BFF;
+  --card-border: rgba(255,255,255,0.04);
+  --muted: rgba(255,255,255,0.72);
+}
 
-/* animated pan for background for gentle movement */
+/* Global base */
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  padding:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #ffffff;
+  background: var(--bg-color);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+
+  /* subtle starfield background (from /public/assets/stars-bg.png) */
+  background-image: url('/assets/stars-bg.png'), linear-gradient(180deg,#020217 0%, #000000 100%);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Container helpers */
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Heading styles */
+.h1 {
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+.lead {
+  color: var(--muted);
+}
+
+/* Animated background pan utility (gentle movement) */
 @keyframes bg-pan {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -15,14 +60,96 @@ body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 
   animation: bg-pan 40s linear infinite;
 }
 
-/* subtle glowing text effect */
+/* Glow text utility */
 .glow {
-  text-shadow: 0 10px 30px rgba(90,200,250,0.06), 0 2px 6px rgba(166,107,255,0.04);
+  text-shadow:
+    0 8px 30px rgba(90,200,250,0.06),
+    0 2px 6px rgba(166,107,255,0.04);
 }
 
-/* card style */
+/* Card / glass surface */
 .card {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(2,4,12,0.6);
   backdrop-filter: blur(6px);
+}
+
+/* Button primary (aurora gradient) */
+.btn-primary {
+  display:inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--aurora-1), var(--aurora-2));
+  color: #06101a;
+  font-weight:600;
+  text-decoration:none;
+  box-shadow: 0 8px 24px rgba(90,200,250,0.12);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 14px 40px rgba(90,200,250,0.18); }
+
+/* Simple link style */
+a.simple-link { color: var(--aurora-1); text-decoration: none; }
+a.simple-link:hover { text-decoration: underline; }
+
+/* Roadmap layout helpers */
+.timeline {
+  display:flex;
+  flex-direction:column;
+  gap: 1.25rem;
+}
+
+/* Milestone left node */
+.node {
+  width:56px;
+  height:56px;
+  border-radius:9999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* small vertical connector line under node */
+.node-connector {
+  width:2px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  margin-top:0.75rem;
+  flex-grow:1;
+}
+
+/* Status badge */
+.badge {
+  padding:0.25rem 0.5rem;
+  border-radius:999px;
+  font-size:0.75rem;
+  font-weight:600;
+  display:inline-block;
+}
+.badge.completed { background: rgba(34,197,94,0.14); color: #86efac; }
+.badge.in-progress { background: rgba(250,204,21,0.10); color: #facc15; }
+.badge.planned { background: rgba(139,92,246,0.10); color: #c084fc; }
+
+/* Collapsible list inside milestone */
+.milestone-list { margin-left: 1rem; margin-top: 0.5rem; color: rgba(255,255,255,0.85); }
+.milestone-list li { margin: 0.35rem 0; }
+
+/* Responsive & spacing tweaks */
+.header-spacer { height: 72px; } /* matches fixed navbar height */
+@media (min-width:768px){
+  .header-spacer { height: 88px; }
+}
+
+/* Small utilities */
+.text-muted { color: rgba(255,255,255,0.7); font-size:0.95rem; }
+.small { font-size:0.9rem; color: rgba(255,255,255,0.78); }
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-bg-pan { animation: none; }
+  .btn-primary { transition: none; transform: none; }
 }
