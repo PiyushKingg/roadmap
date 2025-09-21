@@ -45,7 +45,7 @@ const ROADMAP = [
   },
   {
     id: 5,
-    title: 'Upgraded Level Roles & Reward System',
+    title: 'Better Level Roles Reward System',
     icon: 'https://i.ibb.co/Xwb6P9L/169a7ccbe5d104c96fcae59a80849ca1.jpg',
     bullets: [
       'A complete rework of the level system to make every role meaningful and rewarding.'
