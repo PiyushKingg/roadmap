@@ -1,41 +1,59 @@
+// src/components/RoadmapCard.jsx
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const statusColor = {
-  'completed': 'bg-green-500/30 text-green-200',
-  'in-progress': 'bg-yellow-400/20 text-yellow-200',
-  'planned': 'bg-violet-500/10 text-violet-200'
-}
-
-export default function RoadmapCard({ item }){
+export default function RoadmapCard({ item }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <motion.div layout className="card p-6 rounded-2xl cursor-pointer" onClick={() => setOpen(!open)}>
-      <div className="flex items-start gap-5">
-        <div className="flex flex-col items-center">
-          <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#5AC8FA,#A66BFF)' }}>
-            <div className="text-black font-semibold">{item.phase[0]}</div>
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.28 }}
+      className="card p-5 rounded-2xl cursor-pointer"
+      onClick={() => setOpen((s) => !s)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') setOpen((s) => !s)
+      }}
+      aria-expanded={open}
+      aria-controls={`desc-${item.id}`}
+    >
+      <div className="flex items-start gap-4">
+        <div className="flex-shrink-0">
+          <div className="node" aria-hidden>
+            <img
+              src={item.icon}
+              alt=""
+              className="w-full h-full object-cover rounded-full"
+            />
           </div>
-          <div className="w-px bg-white/6 h-full mt-4" />
         </div>
 
         <div className="flex-1">
           <div className="flex items-center justify-between">
-            <div>
-              <div className="text-sm opacity-80">{item.phase} • <span className="opacity-70">{item.date}</span></div>
-              <h3 className="text-xl font-semibold mt-1">{item.title}</h3>
-            </div>
-            <div className={`px-3 py-1 rounded-lg text-xs font-medium ${statusColor[item.status] || 'bg-white/5'}`}>
-              {item.status.replace('-', ' ')}
-            </div>
+            <h3 className="text-lg font-semibold">{item.title}</h3>
+            <div className="small text-muted">{open ? 'Hide' : 'View'}</div>
           </div>
 
-          <motion.ul initial={false} animate={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }} className="mt-4 ml-4 list-disc overflow-hidden">
-            {item.bullets.map((b, i) => <li key={i} className="py-1">{b}</li>)}
-          </motion.ul>
+          <AnimatePresence initial={false}>
+            {open && (
+              <motion.div
+                id={`desc-${item.id}`}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.22 }}
+                className="mt-3 text-sm text-muted"
+              >
+                <p style={{ margin: 0 }}>{item.description}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   )
 }
