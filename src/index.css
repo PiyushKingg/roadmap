@@ -1,26 +1,74 @@
-/* === External GIF background tweaks (append to src/index.css) === */
+/* src/index.css - base + custom styles for simplified roadmap */
 
-/* ensure the external background image fills and not blurry/stretch */
-.bg-external-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* cover full area */
-  opacity: 0.96;
-  filter: saturate(1.02) contrast(1.03);
-  will-change: transform;
+/* root colors */
+:root {
+  --bg: #040414;
+  --muted: rgba(255,255,255,0.78);
+  --muted-2: rgba(255,255,255,0.72);
+  --card-border: rgba(255,255,255,0.04);
+  --aurora-1: #5AC8FA;
+  --aurora-2: #A66BFF;
 }
 
-/* slow floating movement for subtle life */
-@keyframes bgFloat {
-  0% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-6px) scale(1.001); }
-  100% { transform: translateY(0) scale(1); }
-}
-.bg-float {
-  animation: bgFloat 28s ease-in-out infinite;
+/* global reset-ish */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: white;
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* mobile perf: reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  .bg-float { animation: none; }
+/* background animation (GIF handled in App.jsx) */
+.bg-external-img { width:100%; height:100%; object-fit: cover; }
+@keyframes bgFloat { 0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)} }
+.bg-float { animation: bgFloat 28s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce){ .bg-float { animation: none; } }
+
+/* header styles */
+.h1 { font-weight: 800; letter-spacing: -0.02em; }
+.lead { color: var(--muted-2); font-size: 1.05rem; }
+
+/* card glass style */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 10px 30px rgba(2,4,12,0.6);
+  backdrop-filter: blur(6px);
+}
+
+/* node / circular icon */
+.node {
+  width:56px;
+  height:56px;
+  border-radius: 9999px;
+  overflow: hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* small text helpers */
+.small { font-size: 0.85rem; color: var(--muted-2); }
+.text-muted { color: var(--muted-2); }
+
+/* timeline layout */
+.timeline { display: flex; flex-direction: column; gap: 1rem; }
+
+/* layout spacing to offset fixed navbar (72px) */
+main { padding-top: 0; }
+
+/* accessibility focus */
+[role="button"]:focus { outline: 3px solid rgba(90,200,250,0.14); outline-offset: 4px; border-radius: 8px; }
+
+/* tidy responsiveness */
+@media (min-width: 768px) {
+  .h1 { font-size: 4rem; }
+  .card { padding: 1.25rem; }
 }
