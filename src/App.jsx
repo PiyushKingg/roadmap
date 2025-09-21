@@ -6,20 +6,16 @@ import ROADMAP from './data/roadmap'
 import { motion } from 'framer-motion'
 
 function BackgroundExternal() {
-  // using the external gif URL directly (no local file)
   const url = 'https://i.ibb.co/LhJVmMKP/love-stars.gif'
   return (
     <div aria-hidden className="fixed inset-0 -z-20 overflow-hidden">
-      {/* animated GIF as full-screen background */}
       <img
         src={url}
         alt=""
         className="w-full h-full object-cover bg-external-img bg-float"
         style={{ display: 'block' }}
       />
-
-      {/* dark overlay so text stays readable */}
-      <div className="absolute inset-0 bg-black/55 pointer-events-none" />
+      <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.55)' }} />
     </div>
   )
 }
@@ -28,37 +24,48 @@ export default function App() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <BackgroundExternal />
+      <Navbar />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 py-12">
-        <Navbar />
-
+      <main className="relative z-10 max-w-5xl mx-auto px-6 py-20">
+        {/* Header — centered "Roadmap." with gradient text */}
         <motion.header
-          initial={{ opacity: 0, y: -8 }}
+          initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mt-8 text-center"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-6"
         >
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-            Roadmap —{' '}
-            <span style={{ background: 'linear-gradient(90deg,#5AC8FA,#A66BFF)', WebkitBackgroundClip: 'text', color: 'transparent' }}>
-              Aurora
-            </span>
+          <h1
+            className="h1"
+            style={{
+              fontSize: '3rem',
+              lineHeight: 1.02,
+              margin: 0,
+              background:
+                'linear-gradient(90deg, #072B61 0%, #2A6FB0 40%, #5AC8FA 100%)',
+              WebkitBackgroundClip: 'text',
+              color: 'transparent',
+              fontWeight: 800
+            }}
+          >
+            Roadmap.
           </h1>
-          <p className="mt-3 text-lg" style={{ color: 'rgba(255,255,255,0.86)' }}>
-            Follow the journey — planned features, current work, and long-term goals.
+
+          <p className="lead mt-3 max-w-2xl mx-auto">
+            This is a living plan of ideas and planned features — a place to
+            show what we’re considering building and improving. These are not
+            strict release dates or guarantees; they represent goals, concepts,
+            and community-driven possibilities.
           </p>
         </motion.header>
 
-        <section className="mt-10 space-y-6">
+        {/* Roadmap list — minimal, click to reveal */}
+        <section className="timeline">
           {ROADMAP.map((item) => (
             <RoadmapCard key={item.id} item={item} />
           ))}
         </section>
-
-        <footer className="mt-12 text-center opacity-80">
-          © {new Date().getFullYear()} — Your Project • Built with care
-        </footer>
-      </div>
+      </main>
+      {/* Footer intentionally removed for a minimal look */}
     </div>
   )
 }
