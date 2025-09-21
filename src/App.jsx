@@ -35,7 +35,7 @@ export default function App() {
           </h1>
 
           <p className="lead mt-3 max-w-2xl mx-auto">
-            This is a living plan of ideas and planned features — a place to show what we’re considering building and improving. These are not strict release dates or guarantees; they represent goals, concepts, and community-driven possibilities.
+            This is a living plan of ideas and planned features. A place to show what I am considering building and improving.
           </p>
         </motion.header>
 
